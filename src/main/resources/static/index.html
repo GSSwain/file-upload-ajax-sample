@@ -1,0 +1,39 @@
+<html>
+	<head>
+		<script>
+			function onSubmit(){
+				
+				var formData = new FormData();
+		
+				formData.append("file", document.forms["userForm"].file.files[0]);
+				formData.append('user', new Blob([JSON.stringify({
+				                "firstName": document.getElementById("firstName").value,
+				                "lastName": document.getElementById("lastName").value                    
+				            })], {
+				                type: "application/json"
+				            }));
+				var boundary=Math.random().toString().substr(2);
+				fetch('/upload', {
+					method: 'post',
+					body: formData
+				}).then(function(response){
+					 if (response.status !== 200) {  
+						alert("There was an error!");
+					 } else {
+						alert("Request successful");
+					 }
+				}).catch(function(err) {
+					alert("There was an error!");
+				});;
+			}
+		</script>
+	</head>
+	<body>
+		<form name="userForm">
+			<label> File : </label>  <br/><input name="file" type="file"><br/>
+			<label> First Name : </label> <br/><input id="firstName" name="firstName"/><br/>
+			<label> Last Name : </label> <br/> <input id="lastName" name="lastName"/><br/>
+			<input type="button" value="Submit" id="submit" onclick="onSubmit(); return false;"/>
+		</form>
+	</body>
+</html>
