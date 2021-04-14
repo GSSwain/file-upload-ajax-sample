@@ -13,43 +13,25 @@ import org.springframework.web.multipart.MultipartFile;
 @RestController
 public class FileUploadController {
 
+	// endpoint for https://stackoverflow.com/questions/49845355/spring-boot-controller-upload-multipart-and-json-to-dto/49993072#49993072
 	@RequestMapping(value = "/upload", method = RequestMethod.POST, consumes = { "multipart/form-data" })
 	public void upload(@RequestPart("user") @Valid User user,
 			@RequestPart("file") @Valid @NotNull @NotBlank MultipartFile file) {
-			System.out.println(user);
-			System.out.println("Uploaded File: ");
-			System.out.println("Name : " + file.getName());
-			System.out.println("Type : " + file.getContentType());
-			System.out.println("Name : " + file.getOriginalFilename());
-			System.out.println("Size : " + file.getSize());
+		System.out.println(user);
+		printFileDetails(file);
 	}
 
-	static class User {
-		@NotNull
-		String firstName;
-		@NotNull
-		String lastName;
+	// endpoint for https://stackoverflow.com/questions/67023339/error-making-http-post-with-file-in-request-body/67085556#67085556
+	@RequestMapping(value = "/api/endpoint", method = RequestMethod.POST, consumes = { "multipart/form-data" })
+	public void upload(@RequestPart("file") @Valid @NotNull @NotBlank MultipartFile file) {
+		printFileDetails(file);
+	}
 
-		public String getFirstName() {
-			return firstName;
-		}
-
-		public void setFirstName(String firstName) {
-			this.firstName = firstName;
-		}
-
-		public String getLastName() {
-			return lastName;
-		}
-
-		public void setLastName(String lastName) {
-			this.lastName = lastName;
-		}
-
-		@Override
-		public String toString() {
-			return "User [firstName=" + firstName + ", lastName=" + lastName + "]";
-		}
-
+	private void printFileDetails(MultipartFile file) {
+		System.out.println("Uploaded File: ");
+		System.out.println("Name : " + file.getName());
+		System.out.println("Type : " + file.getContentType());
+		System.out.println("Name : " + file.getOriginalFilename());
+		System.out.println("Size : " + file.getSize());
 	}
 }
