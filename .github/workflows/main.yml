@@ -31,3 +31,5 @@ jobs:
           docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
           echo "Pushing image to Docker Hub"
           docker push girijashankarswain/ajax-file-upload-spring:latest
+          echo "Logout from Docker Hub"
+          docker logout
